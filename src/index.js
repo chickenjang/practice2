@@ -3,10 +3,33 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
+
+
+const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+
+function reducer(state, action) {
+  if(state === undefined) {
+    return {topics: []}
+  }
+  const newState = {...state};
+
+  if(action.type === 'SET_TOPICS') {
+    newState.topics = action.topics;
+  }
+
+  return newState;
+}
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );
